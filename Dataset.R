@@ -1,14 +1,34 @@
-library(caret)   
+# =============================================================================
+# Dataset.R
+# Data loading, exploration, and visualization for the marketing dataset.
+# =============================================================================
+
+library(caret)
 library(ggplot2)
-
-data(marketing, package = "datarium")
-dim(marketing)
-str(marketing) #show data type of each variable and first 5 observations
-summary(marketing) #check if there are NA's in the dataset
-ggplot(marketing, aes(sales)) +geom_histogram()#show distribution of outcome variable sales
-
-#For a dataset with a small number of variables, pairs.panels is a better graphic to show relationships between variables and distribution of each variable simultaneously.
 library(psych)
-pairs.panels(marketing,method = "pearson", hist.col =  "steelblue",
-             pch = 21, density = TRUE, ellipses = FALSE )
-#You can see that variables youtube and facebook are highly related to sales but newspaper is not.
+
+# Load the marketing dataset from the datarium package
+data(marketing, package = "datarium")
+
+# Inspect dataset dimensions, structure, and summary statistics
+dim(marketing)
+str(marketing)     # Variable types and first few observations
+summary(marketing) # Descriptive statistics; check for missing values
+
+# Visualize the distribution of the outcome variable (sales)
+ggplot(marketing, aes(sales)) +
+  geom_histogram(binwidth = 2, fill = "steelblue", color = "white") +
+  labs(title = "Distribution of Sales", x = "Sales", y = "Count")
+
+# Pairwise scatterplot matrix: shows bivariate relationships and
+# individual variable distributions simultaneously.
+pairs.panels(
+  marketing,
+  method   = "pearson",
+  hist.col = "steelblue",
+  pch      = 21,
+  density  = TRUE,
+  ellipses = FALSE
+)
+# YouTube and Facebook budgets show strong positive correlations with sales;
+# newspaper budget shows a comparatively weak association.
